@@ -1,0 +1,13 @@
+<html>
+<body>
+<pre>
+  $!{value1} ## ! means if value does not exist. return null
+  ${value2} ## if value does not exist, just print it.
+  
+  colors: $!{colors}
+  #foreach($color in $colors) 
+    this is color : $ color
+  #end
+</pre>
+</body>
+</html>
