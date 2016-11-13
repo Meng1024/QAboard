@@ -5,9 +5,39 @@
   ${value2} ## if value does not exist, just print it.
   
   colors: $!{colors}
+  
+ 
   #foreach($color in $colors) 
     this is color : $ color
   #end
+  
+  hello
+  
+  #foreach($key in $map.keySet())
+    Number: $key, Value; $map.get($key)
+  #end
+  
+  #foreach($kv in $map.entrySet()) 
+    Number: $kv.key
+  #end
+  
+  user: $!user.name
+  
+  #set($title = "QAboard") ## define a variable
+  title: $!{title}
+  
+  Pares: #parse("header.html")  ## can parse the variables
+  Include: #include("header.html") ## only use for text
+  
+  #macro(render_color, $index, $color)
+    Color Render Macro $index, $color
+  #end
+  
+  #set($hello = "hello") 
+  #set($helloworld1 = "$!{hello} world") #"" can be parsed ' cannot.
+  $!hello
+  $helloworld1
+  
 </pre>
 </body>
 </html>
