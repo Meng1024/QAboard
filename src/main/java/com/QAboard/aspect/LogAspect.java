@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
-    @Before("execution(* com.QAboard.controller.IndexController.*(..))")
+    @Before("execution(* com.QAboard.controller.*.*(..))")
     public void beforeMethod(JoinPoint joinPoint) {
         StringBuilder sb = new StringBuilder();
         for(Object arg : joinPoint.getArgs()) {

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +26,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.QAboard.model.User;
 import com.QAboard.service.QAboardService;
 
-@Controller
+//@Controller
 public class IndexController {
     @Autowired
     QAboardService qaService;
@@ -35,8 +34,8 @@ public class IndexController {
     @RequestMapping(path = {"/", "/index"}, method = {RequestMethod.GET})
     
     @ResponseBody
-    public String index(HttpSession httpSession) {
-        return qaService.getMessage(1) + " Hello World " + httpSession.getAttribute("msg");
+    public String index() {
+        return qaService.getMessage(1) + " Hello World ";
     }
     
     
@@ -61,7 +60,7 @@ public class IndexController {
         }
         model.addAttribute("map", map);
         model.addAttribute("user", new User("lee"));
-        return "home";
+        return "index";
             
     }
     

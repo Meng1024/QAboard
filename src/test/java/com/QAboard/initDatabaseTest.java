@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Random;
 
 import org.junit.Test;
@@ -12,7 +13,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.QAboard.dao.QuestionDAO;
 import com.QAboard.dao.UserDAO;
+import com.QAboard.model.Question;
 import com.QAboard.model.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,6 +25,9 @@ public class initDatabaseTest {
     
     @Autowired
     UserDAO userDAO;
+    
+    @Autowired
+    QuestionDAO questionDAO;
     
     @Test
     public void initTest() {
@@ -35,7 +41,21 @@ public class initDatabaseTest {
            user.setSalt("bb");
            
            userDAO.addUser(user);
+           
+           
+           Question question = new Question();
+           question.setCommentCount(i);
+           Date date = new Date();
+           date.setTime(date.getTime() + 1000 * 3600 * 5 * i);
+           question.setCreatedDate(date);
+           question.setUserId(i + 1);
+           question.setTitle(String.format("TITLE{%d}", i));
+           question.setContent(String.format("cccccccccccccccccccccccccccccccccc%d", i));
+           questionDAO.addQuestion(question);
        } 
+       System.out.println("test output");
+       System.out.println(questionDAO.selectLastestQuestions(4,0,5));
+       
     }
     
     
@@ -70,5 +90,4 @@ public class initDatabaseTest {
           e.printStackTrace();
       }
     }
-
 }

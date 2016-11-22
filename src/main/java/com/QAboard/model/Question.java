@@ -1,13 +1,16 @@
 package com.QAboard.model;
 
+import java.util.Date;
+
 public class Question {
     private int id;
     private String title;
     private String content;
     private int userId;
     private int commentCount;
+    private Date createdDate;
     
-    Question() {
+    public Question() {
         
     }
     
@@ -49,5 +52,13 @@ public class Question {
     
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+    
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }
