@@ -24,6 +24,7 @@ public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     UserService userService;
+    
     @RequestMapping(path = {"/reg/"}, method = {RequestMethod.POST})
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
@@ -66,6 +67,7 @@ public class LoginController {
                         @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                         HttpServletResponse response) {
         try {
+            //System.out.println("****************** username is *************" + username);
             Map<String, String> map = userService.login(username, password);
             if (map.containsKey("ticket")) {
                 Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
@@ -87,6 +89,8 @@ public class LoginController {
         }
     }
     
+   
+
     @RequestMapping(path = {"/logout"}, method = {RequestMethod.GET})
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);
