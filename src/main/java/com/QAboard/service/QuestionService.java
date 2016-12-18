@@ -29,4 +29,8 @@ public class QuestionService {
         
         return questionDAO.addQuestion(question) > 0 ? question.getId() : 0; 
     }
+    
+    public Question selectByID(int id) {
+        return questionDAO.selectByID(id);
+    }
 }
