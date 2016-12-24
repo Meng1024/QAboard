@@ -77,8 +77,7 @@
                  data-widget="navigable" data-navigable-options="{&quot;items&quot;: &quot;&gt;.zm-item-answer&quot;}"
                  data-init="{&quot;params&quot;: {&quot;url_token&quot;: 36301524, &quot;pagesize&quot;: 10, &quot;offset&quot;: 0}, &quot;nodename&quot;: &quot;QuestionAnswerListV2&quot;}">
 
-
-              #foreach($comment in $comments)
+                #foreach($comment in $comments)
                 <div class="zm-item-answer  zm-item-expanded js-comment">
                     <link itemprop="url" href="">
                     <meta itemprop="answer-id" content="22162611">
@@ -136,18 +135,16 @@
                     </div>
                 </div>
                 #end
-
-
-                
             </div>
             <a name="draft"></a>
-            <form action="/addComment" method="post" id="commentform">
-                <input type="hidden" name="questionId" value="$question.id"/>
+
+            <form action="/addComment" method="post">
+                <input type="hidden" name="questionId" value="$!{question.id}"/>
             <div id="zh-question-answer-form-wrap" class="zh-question-answer-form-wrap">
                 <div class="zm-editable-editor-wrap" style="">
                     <div class="zm-editable-editor-outer">
                         <div class="zm-editable-editor-field-wrap">
-                            <textarea name="content" id="content" class="zm-editable-editor-field-element editable" style="font-style: italic;width:100%;"></textarea>
+                            <textarea name="content" id="content" class="zm-editable-editor-field-element editable" style="width:100%;"></textarea>
                         </div>
                     </div>
 
