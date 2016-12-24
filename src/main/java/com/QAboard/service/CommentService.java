@@ -1,5 +1,7 @@
 package com.QAboard.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +44,7 @@ public class CommentService {
         return commentDAO.getCommentCount(entityId, entityType);
     }
     
-    public Comment getCommentsByEntity(int entityId, int entityType) {
+    public List<Comment> getCommentsByEntity(int entityId, int entityType) {
         return commentDAO.selectByEntity(entityId, entityType);
     }
 }
