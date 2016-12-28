@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.QAboard.async.EventModel;
+import com.QAboard.async.EventProducer;
+import com.QAboard.async.EventType;
+import com.QAboard.model.Comment;
 import com.QAboard.model.EntityType;
 import com.QAboard.model.HostHolder;
 import com.QAboard.service.CommentService;
@@ -24,7 +28,8 @@ public class LikeController {
     @Autowired
     CommentService commentService;
 
-    
+    @Autowired
+    EventProducer eventProducer;
     @RequestMapping(path = {"/like"}, method = {RequestMethod.POST})
     @ResponseBody
     public String like(@RequestParam("commentId") int commentId) {
@@ -32,12 +37,12 @@ public class LikeController {
             return QAboardUtil.getJSONString(999);
         }
 
-    //    Comment comment = commentService.getCommentById(commentId);
+        Comment comment = commentService.getCommentById(commentId);
 
-//        eventProducer.fireEvent(new EventModel(EventType.LIKE)
-//                .setActorId(hostHolder.getUser().getId()).setEntityId(commentId)
-//                .setEntityType(EntityType.ENTITY_COMMENT).setEntityOwnerId(comment.getUserId())
-//                .setExt("questionId", String.valueOf(comment.getEntityId())));
+        eventProducer.fireEvent(new EventModel().setEventType(EventType.LIKE)
+                .setActorId(hostHolder.getUser().getId()).setEntityId(commentId)
+                .setEntityType(EntityType.ENTITY_COMMENT).setEntityOwnerId(comment.getUserId())
+                .setExt("questionId", String.valueOf(comment.getEntityId())));
 
         long likeCount = likeService.like(hostHolder.getUser().getId(), EntityType.ENTITY_COMMENT, commentId);
         return QAboardUtil.getJSONString(0, String.valueOf(likeCount));

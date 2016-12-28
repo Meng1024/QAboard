@@ -1,5 +1,7 @@
 package com.QAboard.util;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -126,7 +128,7 @@ public class JedisAdapter implements InitializingBean {
         pool = new JedisPool("redis://localhost:6379/10");
         
     }
-
+    // set operations
     public long sadd(String key, String value) {
         Jedis jedis = null;
         try {
@@ -185,5 +187,51 @@ public class JedisAdapter implements InitializingBean {
             }
         }
         return false;
+    }
+    
+    //list Operations
+    public List<String> brpop(int timeout, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.brpop(timeout, key);
+        } catch(Exception e) {
+            logger.error("fail" + e.getMessage());
+        } finally {
+            if(jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
+    }
+    
+    public long lpush(String key, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.lpush(key, value);
+        } catch(Exception e) {
+            logger.error("fail" + e.getMessage());
+        } finally {
+            if(jedis != null) {
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+    
+    public List<String> lrange(String key, int start, int end) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.lrange(key, start, end);
+        } catch (Exception e) {
+            logger.error("fail" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return null;
     }
 }
