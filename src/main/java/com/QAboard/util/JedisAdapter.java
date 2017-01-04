@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.BinaryClient;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 @Service
 public class JedisAdapter implements InitializingBean {
@@ -234,4 +235,45 @@ public class JedisAdapter implements InitializingBean {
         }
         return null;
     }
+    
+    public Jedis getJedis() {
+        return pool.getResource();
+    }
+    
+    public Transaction multi(Jedis jedis) {
+        try {
+            return jedis.multi();
+        } catch(Exception e) {
+            logger.error("error" + e.getMessage());
+        }
+        return null;
+    }
+    
+    public List<Object> exec(Transaction tx, Jedis jedis) {
+        try {
+            return tx.exec();
+        } catch(Exception e) {
+            logger.error("error " + e.getMessage());
+        } finally {
+            if(jedis != null) {}
+            jedis.close();
+        }
+        return null;
+    }
+    
+    public long zadd(String key, double score, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.zadd(key, score, value);
+        } catch(Exception e) {
+            logger.error("fail" + e.getMessage());
+        } finally {
+            if(jedis != null) {
+                jedis.close();
+            }
+        }
+        return 0;
+    }
+    
 }
